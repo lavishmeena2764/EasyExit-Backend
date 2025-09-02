@@ -42,8 +42,4 @@ public class StudentController {
         return new ResponseEntity<Form>(studentService.getStatus(),HttpStatus.OK);
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<User> getProfile(){
-        return new ResponseEntity<User>(studentService.getProfile(),HttpStatus.OK);
-    }
 }

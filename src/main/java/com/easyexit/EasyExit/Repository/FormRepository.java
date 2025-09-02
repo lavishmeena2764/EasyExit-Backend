@@ -15,5 +15,7 @@ public interface FormRepository extends MongoRepository<Form, ObjectId> {
 
     List<Form> findAllByStatus(Status status);
 
+    List<Form> findAllByStatusIn(List<Status> statuses);
+
     Form findByRollNoAndOtp(String rollNo, String otp);
 }

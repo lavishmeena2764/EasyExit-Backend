@@ -63,19 +63,4 @@ public class StudentService {
         }
         return history.get(0);
     }
-
-    public User getProfile() {
-        UserDetails user = authService.getCurrentUser();
-
-        if (user == null) {
-            throw new IllegalStateException("User is not authenticated");
-        }
-
-        User user1 = userRepository.findByRollNo(user.getUsername());
-        if (user1 == null) {
-            throw new IllegalStateException("User profile not found.");
-        }
-        user1.setPassword(null);
-        return user1;
-    }
 }

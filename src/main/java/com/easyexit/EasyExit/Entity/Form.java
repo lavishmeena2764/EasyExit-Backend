@@ -29,8 +29,8 @@ public class Form {
     private String otp;
     private String rejectReason;
 
-    public ObjectId getId() {
-        return id;
+    public String getId() {
+        return id != null ? id.toHexString() : null;
     }
 
     public String getName() {

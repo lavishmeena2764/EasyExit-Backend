@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +23,9 @@ public class AdminService {
     @Autowired
     private FormRepository formRepository;
 
-    public List<Form> approvedPasses(){
-        List<Form> forms = formRepository.findAllByStatus(Status.APPROVED);
+    public List<Form> approvedPasses() {
+        List<Status> statuses = Arrays.asList(Status.APPROVED, Status.VERIFIED);
+        List<Form> forms = formRepository.findAllByStatusIn(statuses);
         Collections.reverse(forms);
         return forms;
     }

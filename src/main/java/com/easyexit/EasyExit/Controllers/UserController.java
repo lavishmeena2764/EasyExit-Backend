@@ -20,6 +20,11 @@ public class UserController {
         return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
     }
 
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUserByRollNo(@PathVariable String username){
+        return new ResponseEntity<User>(userService.getUser(username), HttpStatus.OK);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user){
         if (user.getName() == null || user.getName().trim().isEmpty() ||
@@ -45,5 +50,10 @@ public class UserController {
             return new ResponseEntity<>("Invalid roll number or password.",HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(verificationResponse,HttpStatus.OK);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<User> getProfile(){
+        return new ResponseEntity<User>(userService.getProfile(),HttpStatus.OK);
     }
 }

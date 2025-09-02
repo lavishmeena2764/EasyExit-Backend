@@ -28,8 +28,8 @@ public class User {
     @DBRef
     private List<Form> passes = new ArrayList<>();
 
-    public ObjectId getId() {
-        return id;
+    public String getId() {
+        return id != null ? id.toHexString() : null;
     }
 
     public List<Form> getPasses() {

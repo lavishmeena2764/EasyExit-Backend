@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private JWTService jwtService;
@@ -29,9 +33,15 @@ public class UserService {
         return userRepo.findAll();
     }
 
+    public User getUser(String username) {
+        return userRepo.findByRollNo(username);
+    }
+
     public User register(User user){
         user.setPassword(encoder.encode(user.getPassword()));
-        return userRepo.save(user);
+        userRepo.save(user);
+        user.setPassword("");
+        return user;
     }
 
     public String verify(User user) {
@@ -44,5 +54,20 @@ public class UserService {
             throw new BadCredentialsException("Invalid roll number or password.");
         }
         throw new BadCredentialsException("Authentication failed.");
+    }
+
+    public User getProfile() {
+        UserDetails user = authService.getCurrentUser();
+
+        if (user == null) {
+            throw new IllegalStateException("User is not authenticated");
+        }
+
+        User user1 = userRepo.findByRollNo(user.getUsername());
+        if (user1 == null) {
+            throw new IllegalStateException("User profile not found.");
+        }
+        user1.setPassword(null);
+        return user1;
     }
 }
