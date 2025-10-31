@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .and()
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .antMatchers("/api/v1/users/register","/api/v1/users/login")
+                        .antMatchers("/api/v1/users/register","/api/v1/users/login","/actuator/health", "/actuator/info")
                         .permitAll()
                         .antMatchers("/api/v1/admin/**").hasAuthority(Role.ADMIN.name())
                         .antMatchers("/api/v1/student/**").hasAuthority(Role.STUDENT.name())
